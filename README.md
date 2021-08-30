@@ -1,5 +1,4 @@
-# Solana.py 
-### *Easy Mode*
+# Solana.py - *Easy Mode*
 
 > @slurpcap
 
