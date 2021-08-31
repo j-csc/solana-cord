@@ -24,10 +24,6 @@ class Client(object):
             logger.info('Health check failed!')
             raise ConnectionError('Health check failed!')
     
-    """
-    JSON RPC API calls (unfinished)
-    """
-    
     def _healthCheck(self) -> None:
         '''
         Health check
