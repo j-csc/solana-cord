@@ -1,51 +1,75 @@
-from typing import Any, Dict, Tuple, Union
-from base import Request, Error, Response
+from typing import Any, Dict, Tuple, Union, cast
+from base import Request, Response
 import requests
+from logger import logger
+import sys
+
+# TODO: - Add error handling
 
 class RPCRequest:
     def __init__(
-        self, 
-        client: Any,
-        method: str, 
+        self,
+        url: str,
+        method: str,
+        id: int = 1,
         params: Union[Dict[str, Any], Tuple[Any, ...], None] = None,
-        retries: bool = False
+        session: Any = None
         ):
-        self.client = client
+        self.url = url
+        self.id = id
         self.method = method
         self.params = params
-        self.retries = retries
+        self.session = session
         
     def _build_request(self) -> Request:
         return {
             "jsonrpc": "2.0",
             "method": self.method,
             **({"params": self.params} if self.params else {}),
-            "id": self.client.id
+            "id": self.id
         }
-    
+            
     def make_request(self) -> Response:
         request = self._build_request()
         self._pprint_request()
-        
-        if self.client.session:
-            return self.client.session.post(self.client.url, json=request)
+        resp = None
+        if self.session:
+            resp = self.session.post(self.url, json=request)
         else:
-            return requests.post(self.client.url, request)
+            resp = requests.post(self.url, request)
+        
+        return self._process_response(resp)
     
-    def _pprint_request(self) -> str:
-        if self.client.logger:
-            self.client.logger.info("Requesting {} to {}".format(self.client.method, self.client.url))
-            self.client.logger.debug(
-                '{}\n{} {} application/json\n{}\n\n{}'.format(
+    def _process_response(self, raw: requests.Response) -> Response:
+        raw.raise_for_status()
+        return cast(Response, raw.json())
+    
+    def _pprint_response(self) -> None:
+        if logger:
+            logger.info("Requesting {} to {}".format(self.method, self.url))
+            logger.debug(
+                '{}\nmethod: {}\nurl: {}\ntype: application/json\nparams: {}\n'.format(
+                    '-----------RPC RESPONSE-----------',
+                    self.method,
+                    self.url,
+                    self.params
+                )
+            )
+    
+    def _pprint_request(self) -> None:
+        if logger:
+            logger.info("Requesting {} to {}".format(self.method, self.url))
+            logger.debug(
+                '{}\nmethod: {}\nurl: {}\ntype: application/json\nparams: {}\n'.format(
                     '-----------RPC REQUEST-----------',
                     self.method,
-                    self.client.url,
+                    self.url,
                     self.params
                 )
             )
     
     @classmethod
-    def _build_request(
+    def _cls_build_request(
         cls,
         id: int,
         method: str,
@@ -57,9 +81,9 @@ class RPCRequest:
             **({"params": params} if params else {}),
             "id": id
         }
-    
+
     @classmethod
-    def make_request(
+    def cls_make_request(
         cls,
         url: str,
         id: int,
@@ -67,28 +91,5 @@ class RPCRequest:
         params: Union[Dict[str, Any], Tuple[Any, ...], None] = None,
         logger: Any = None
     ) -> Response:
-        request = RPCRequest._build_request(id, method, params)
-        RPCRequest._pprint_request(url, request)
-        return requests.post(url, json=request).json()
-        
-    @classmethod
-    def _pprint_request(
-        cls,
-        url: str,
-        request: Request,
-        logger: Any = None
-    ) -> Response:
-        if logger:
-            logger.info("Requesting {} to {}".format(request.method, url))
-            logger.debug(
-                '{}\n{} {} application/json\n{}\n\n{}'.format(
-                    '-----------RPC REQUEST-----------',
-                    request.method,
-                    url,
-                    request.params
-                )
-            )
-
-if __name__ == '__main__':
-    resp = RPCRequest.make_request("https://api.mainnet-beta.solana.com", 1, "getEpochInfo")
-    print(resp)
+        req = cls._build_request(id, method, params)
+        return cast(Response, requests.post(url, json=req).json())

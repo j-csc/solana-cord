@@ -1,4 +1,6 @@
-from typing import Any, Literal, NamedTuple, TypedDict, Union, Optional, Dict
+from typing import Any, Literal, NamedTuple, NewType, TypedDict, Union, Optional, Dict
+
+RPCMethod = NewType("RPCMethod", str)
 
 class Error(NamedTuple):
     code: int

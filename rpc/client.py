@@ -1,45 +1,23 @@
 #!/usr/bin/env python
+from request import RPCRequest
 import requests
-import json
+from base import Response
 from math import floor
-import logging
+from logger import logger
 import os
 import sys
 from enum import Enum
 
-# Solana mainnet url
-URL = "https://api.mainnet-beta.solana.com"
-
-# Set up basic logger
-logger = logging.getLogger('sol.client')
-
-# Setup stdout logger
-soh = logging.StreamHandler(sys.stdout)
-logger.addHandler(soh)
-
-# File handler for logging to a file
-fh = logging.FileHandler('apiWrapper.log')
-fh.setLevel(logging.DEBUG)
-logger.addHandler(fh)
-
-# Get log level from env vars
-log_level = os.environ.get('LOG_LEVEL', 'INFO').upper()
-if os.environ.get('DEBUG'):
-    if log_level:
-        logger.warn("Overriding LOG_LEVEL setting with DEBUG")
-    log_level = 'DEBUG'
-
-try:
-    logger.setLevel(log_level)
-except ValueError:
-    logger.setLevel(logging.INFO)
-    logger.warn("Variable LOG_LEVEL not valid - Setting Log Level to INFO")
-
+'''
+Sol JSON RPC Client
+'''
 class SolClient(object):
-    def __init__(self,url,id):
+    def __init__(self, url: str, id: int = 1) -> None:
         self.url = url
         self.id = id
         self.session = requests.Session()
+        
+        # logging
         logger.info('Testing for health...')
         if self._healthCheck():
             logger.info('Health check successful!')
@@ -47,7 +25,14 @@ class SolClient(object):
             logger.info('Health check failed!')
             raise ConnectionError('Health check failed!')
     
-    def _healthCheck(self):
+    """
+    JSON RPC API calls (unfinished)
+    """
+    
+    def _healthCheck(self) -> None:
+        '''
+        Health check
+        '''
         endpoint = '/health'
         r = requests.get(self.url + endpoint)
         r.raise_for_status()
@@ -61,96 +46,35 @@ class SolClient(object):
             print ("Timeout Error:",errt)
         
         return True if r else False
-        
-    def _make_request(self, method, query_params=None, payload=None):
-        '''
-        Handles all requests to Solana API
-        '''
-        url = self.url
-        req = requests.Request(method, url, params=query_params, json=payload)
-        prepped = self.session.prepare_request(req)
-
-        # Log request prior to sending
-        self._pprint_request(prepped)
-
-        # Actually make request to endpoint
-        r = self.session.send(prepped)
-
-        # Log response immediately upon return
-        self._pprint_response(r)
-
-        # Handle all response codes as elegantly as needed in a single spot
-        if r.status_code == requests.codes.ok:
-            try:
-                resp_json = r.json()
-                logger.debug('Response: {}'.format(resp_json))
-                return resp_json
-            except ValueError:
-                return r.text
-
-        elif r.status_code == 401:
-            logger.info("Request unsuccessful!")
-            try:
-                resp_json = r.json()
-                logger.debug('Details: ' + str(resp_json))
-                raise ConnectionError(resp_json)
-            except ValueError:
-                raise
-
-        # TODO handle rate limiting gracefully
-
-        # Raises HTTP error if status_code is 4XX or 5XX
-        elif r.status_code >= 400:
-            logger.error('Received a ' + str(r.status_code) + ' error!')
-            try:
-                logger.debug('Details: ' + str(r.json()))
-            except ValueError:
-                pass
-            r.raise_for_status()
-
- 
-    def make_request(
-        self,
-        endpoint,
-        method="GET",
-        query_params=None,
-        body=None
-    ):
-        return self._make_request(endpoint, method, query_params, body)
-
-    def get_version(self):
-        """Returns the current solana versions running on the node"""
-         
-        pass
     
-    def get_users(
-            self,
-            tags=[],
-            offset=0,
-            limit=20
-    ):
-        '''Get list of users in Example
-        :tags: list of tags to filter users on
+    def getVersion(self) -> Response:
         '''
-        endpoint = '/api/v1/users'
-        params = {}
-        if tags:
-            params['tags'] = ','.join(tags)
-        else:
-            tags = None
-        params['offset'] = offset
-        params['limit'] = limit
-        params['include_tags'] = True
+        Returns the current solana version running on the node
+        '''
+        return RPCRequest(self.url, id=self.id, method='getFees', session=self.session).make_request()
+    
+    def getFees(self) -> Response:
+        '''
+        Returns a recent block hash from the ledger, a fee schedule that can be used to compute the cost of submitting a transaction using it, and the last slot in which the blockhash will be valid.
+        '''
+        return RPCRequest(self.url, id=self.id, method='getFees', session=self.session).make_request()
+        
+    def getFirstAvailableBlock(self) -> Response:
+        '''
+        Returns the slot of the lowest confirmed block that has not been purged from the ledger
+        '''
+        return RPCRequest(self.url, id=self.id, method='getFirstAvailableBlock', session=self.session).make_request()
 
-        return self._make_request(endpoint, 'GET', query_params=params)
-
-    def get_user(self, user_id):
-        """return user object
-        """
-        endpoint = '/api/v1/users/{}'.format(user_id)
-        return self._make_request(endpoint, 'GET')
-
+    def getGenesisHash(self) -> Response:
+        '''
+        Returns the genesis hash
+        '''
+        return RPCRequest(self.url, id=self.id, method='getGenesisHash', session=self.session).make_request()
 
 if __name__ == "__main__":
-    solClient = SolClient(URL, 1)
-    pass
+    
+    # Solana mainnet url
+    URL = "https://api.mainnet-beta.solana.com"
+    solClient = SolClient(URL)
+    fees = type(solClient.getFees())
+    print(fees)
