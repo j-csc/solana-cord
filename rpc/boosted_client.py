@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from typing import Tuple
-from response import EpochInfoResponse
 from client import Client
+from response_helper import EpochInfoResponse
 import datetime
 
 # TODO - Add more boosted methods

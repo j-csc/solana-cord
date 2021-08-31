@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import logging, sys, os
 
 # Set up basic logger

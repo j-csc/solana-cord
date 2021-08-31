@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from typing import Any, Dict, Tuple, Union, cast
 from base import Request, Response
 import requests
