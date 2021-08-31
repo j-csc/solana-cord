@@ -1,19 +1,12 @@
 import requests
 import json
+from rpc.boosted_client import BoostedClient
 
 endpoint = "https://api.mainnet-beta.solana.com"
 
-def main():
-    # payload = {
-    #     "method": "getEpochInfo",
-    #     "jsonrpc": "2.0",
-    #     "id": 1
-    # }
-    # response = requests.post(endpoint, json=payload).json()
-    # assert response["jsonrpc"]
-    # assert response["id"] == 1
-    resp = requests.get(endpoint+"/health")
-    print(resp.text)
-
 if __name__ == "__main__":
-    main()
+    # Sample usage
+    URL = "https://api.mainnet-beta.solana.com"
+    solClient = BoostedClient(URL)
+    res = solClient.getEpochProgress()
+    print(res)

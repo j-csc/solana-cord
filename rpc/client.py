@@ -11,7 +11,7 @@ from enum import Enum
 '''
 Sol JSON RPC Client
 '''
-class SolClient(object):
+class Client(object):
     def __init__(self, url: str, id: int = 1) -> None:
         self.url = url
         self.id = id
@@ -77,9 +77,58 @@ class SolClient(object):
         '''
         return RPCRequest(url=self.url, id=self.id, method='getHealth', session=self.session).make_request()
 
-if __name__ == "__main__":
+    def getLeaderSchedule(self) -> Response:
+        '''
+        Returns the leader schedule for an epoch
+        '''
+        return RPCRequest(url=self.url, id=self.id, method='getLeaderSchedule', session=self.session).make_request()
     
-    # Solana mainnet url
+    def getSlot(self) -> Response:
+        '''
+        Returns the slot that has reached the given or default commitment level
+        '''
+        return RPCRequest(url=self.url, id=self.id, method='getSlot', session=self.session).make_request()
+    
+    def getSlotLeader(self) -> Response:
+        '''
+        Returns the current slot leader
+        '''
+        return RPCRequest(url=self.url, id=self.id, method='getSlotLeader', session=self.session).make_request()
+    
+    def getInflationRate(self) -> Response:
+        '''
+        Returns the specific inflation values for the current epoch
+        '''
+        return RPCRequest(url=self.url, id=self.id, method='getInflationRate', session=self.session).make_request()
+    
+    def getInflationGovernor(self) -> Response:
+        '''
+        Returns the current inflation governor
+        '''
+        return RPCRequest(url=self.url, id=self.id, method='getInflationGovernor', session=self.session).make_request()
+
+    def getEpochInfo(self) -> Response:
+        '''
+        Returns information about the current epoch
+        '''
+        return RPCRequest(url=self.url, id=self.id, method='getEpochInfo', session=self.session).make_request()
+
+    def getEpochSchedule(self) -> Response:
+        '''
+        Returns epoch schedule information from this cluster's genesis config
+        '''
+        return RPCRequest(url=self.url, id=self.id, method='getEpochSchedule', session=self.session).make_request()
+
+    def getBlockTime(self, slot) -> Response:
+        '''
+        Returns the estimated production time of a block.
+        '''
+        return RPCRequest(url=self.url, id=self.id, method='getBlockTime', params=[slot], session=self.session).make_request()
+
+
+if __name__ == "__main__":
+    # Sample usage
     URL = "https://api.mainnet-beta.solana.com"
-    solClient = SolClient(URL)
-    res = (solClient.getGenesisHash())
+    solClient = Client(URL)
+    res = solClient.getEpochInfo()
+    print(res)
