@@ -12,6 +12,12 @@ fh = logging.FileHandler('solClient.log')
 fh.setLevel(logging.DEBUG)
 logger.addHandler(fh)
 
+# create formatter
+formatter = logging.Formatter("%(asctime)s: %(levelname)s: %(message)s")
+# add formatter to fh
+fh.setFormatter(formatter)
+soh.setFormatter(formatter)
+
 # Get log level from env vars
 log_level = os.environ.get('LOG_LEVEL', 'INFO').upper()
 if os.environ.get('DEBUG'):

@@ -51,30 +51,35 @@ class SolClient(object):
         '''
         Returns the current solana version running on the node
         '''
-        return RPCRequest(self.url, id=self.id, method='getFees', session=self.session).make_request()
+        return RPCRequest(url=self.url, id=self.id, method='getFees', session=self.session).make_request()
     
     def getFees(self) -> Response:
         '''
         Returns a recent block hash from the ledger, a fee schedule that can be used to compute the cost of submitting a transaction using it, and the last slot in which the blockhash will be valid.
         '''
-        return RPCRequest(self.url, id=self.id, method='getFees', session=self.session).make_request()
+        return RPCRequest(url=self.url, id=self.id, method='getFees', session=self.session).make_request()
         
     def getFirstAvailableBlock(self) -> Response:
         '''
         Returns the slot of the lowest confirmed block that has not been purged from the ledger
         '''
-        return RPCRequest(self.url, id=self.id, method='getFirstAvailableBlock', session=self.session).make_request()
+        return RPCRequest(url=self.url, id=self.id, method='getFirstAvailableBlock', session=self.session).make_request()
 
     def getGenesisHash(self) -> Response:
         '''
         Returns the genesis hash
         '''
-        return RPCRequest(self.url, id=self.id, method='getGenesisHash', session=self.session).make_request()
+        return RPCRequest(url=self.url, id=self.id, method='getGenesisHash', session=self.session).make_request()
+    
+    def getHealth(self) -> Response:
+        '''
+        Returns the current health of the node.
+        '''
+        return RPCRequest(url=self.url, id=self.id, method='getHealth', session=self.session).make_request()
 
 if __name__ == "__main__":
     
     # Solana mainnet url
     URL = "https://api.mainnet-beta.solana.com"
     solClient = SolClient(URL)
-    fees = type(solClient.getFees())
-    print(fees)
+    res = (solClient.getGenesisHash())

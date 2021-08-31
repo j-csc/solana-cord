@@ -3,6 +3,7 @@ from base import Request, Response
 import requests
 from logger import logger
 import sys
+from math import floor
 
 # TODO: - Add error handling
 
@@ -42,17 +43,27 @@ class RPCRequest:
     
     def _process_response(self, raw: requests.Response) -> Response:
         raw.raise_for_status()
+        self._pprint_response(raw)
         return cast(Response, raw.json())
     
-    def _pprint_response(self) -> None:
+    def _pprint_response(self, r:requests.Response) -> None:
         if logger:
-            logger.info("Requesting {} to {}".format(self.method, self.url))
+            status_code = r.status_code
+            status_text = r.reason
+            body = r.text
+            elapsed = floor(r.elapsed.total_seconds() * 1000)
+            
+            logger.info("Response {} {} received in {}ms".format(
+                status_code,
+                status_text,
+                elapsed))
+            
             logger.debug(
-                '{}\nmethod: {}\nurl: {}\ntype: application/json\nparams: {}\n'.format(
+                '{}\ncode: {} text: {}\ntype: application/json\nbody: {}\n'.format(
                     '-----------RPC RESPONSE-----------',
-                    self.method,
-                    self.url,
-                    self.params
+                    status_code,
+                    status_text,
+                    body
                 )
             )
     
