@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 from typing import Any, Dict, Tuple, Union, cast
-from base import Request, Response
 import requests
-from logger import logger
 import sys
 from math import floor
+from .logger import logger
+from .base import Request, Response
 
 # TODO: - Add error handling
 

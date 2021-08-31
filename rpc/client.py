@@ -1,12 +1,11 @@
 #!/usr/bin/env python
-from request import RPCRequest
-import requests
-from base import Response
 from math import floor
-from logger import logger
-import os
-import sys
+import os, sys
 from enum import Enum
+import requests
+from .request import RPCRequest
+from .base import Response
+from .logger import logger
 
 '''
 Sol JSON RPC Client
