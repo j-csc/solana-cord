@@ -3,6 +3,7 @@ import os
 import sys
 import configparser
 import shutil
+from .utils import ENDPOINT_URLS
 from .logger import logger
 
 class Config:
@@ -21,7 +22,8 @@ class Config:
         self.endpoint = config.get("Sol", "Endpoint", fallback=ConfigDefaults.endpoint)
         self.command_prefix = config.get("Chat", "CommandPrefix", fallback=ConfigDefaults.command_prefix)
         self.bound_channels = config.get("Chat", "BindToChannels", fallback=ConfigDefaults.bound_channels)
-        
+        self.endpoint_url = None
+                
         self.check_config()
         
         logger.info("Configuration completed!")
@@ -33,8 +35,12 @@ class Config:
         if not self.command_prefix or self.command_prefix == '':
             logger.warn("Command prefix set to None or ''")
             
-        if not self.endpoint or int(self.endpoint) < 1 or int(self.endpoint) > 3:
+        if not self.endpoint or not self.endpoint.isalpha() or self.endpoint not in ENDPOINT_URLS.keys():
             logger.warn("Faulty endpoint specified, binding to mainnet")
+            # default to mainnet
+            self.endpoint = ConfigDefaults.endpoint
+
+        self.endpoint_url = ENDPOINT_URLS[self.endpoint]
         
         if self.bound_channels:
             try:
@@ -54,5 +60,9 @@ class ConfigDefaults:
     token = None
     command_prefix = "."
     bound_channels = set()
-    endpoint = 1
+    endpoint = 'MAIN'
     options_fn = 'config/options.ini'
+    
+if __name__ == '__main__':
+    print(ENDPOINT_URLS[0])
+    pass

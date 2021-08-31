@@ -22,9 +22,7 @@ class EpochBot(discord.Client):
             config_fn = ConfigDefaults.options_fn
         
         self.config = Config(config_fn)
+        self.client = BoostedClient(self.config.endpoint_url)
     
-    async def on_ready(self):
-        pass
-    
-    async def on_message(self, message):
+    async def cmdEpochStatus():
         pass
