@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+'''
+Custom response objects
+'''
 class EpochInfoResponse:
     def __init__(
         self, 

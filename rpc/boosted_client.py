@@ -6,6 +6,9 @@ from .response_helper import EpochInfoResponse
 
 # TODO - Add more boosted methods
 
+'''
+Boosted Sol JSON RPC Client
+'''
 class BoostedClient(Client):
     def __init__(self, url: str, id: int = 1) -> None:
         super().__init__(url, id=id)
@@ -22,10 +25,3 @@ class BoostedClient(Client):
         estimatedTimeRemaining = (currSlotTime - startSlotTime) / percentCompleted
         
         return percentCompleted, str(datetime.timedelta(seconds=estimatedTimeRemaining))
-    
-if __name__ == "__main__":
-    # Sample usage
-    URL = "https://api.mainnet-beta.solana.com"
-    solClient = BoostedClient(URL)
-    ei = solClient.getEpochProgress()
-    print(ei)

@@ -8,6 +8,9 @@ from .base import Request, Response
 
 # TODO: - Add error handling
 
+'''
+Custom RPC Request
+'''
 class RPCRequest:
     def __init__(
         self,

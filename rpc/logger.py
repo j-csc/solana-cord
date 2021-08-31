@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 import logging, sys, os
 
+'''
+Default Logger - sol.client
+'''
 # Set up basic logger
 logger = logging.getLogger('sol.client')
 

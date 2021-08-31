@@ -1,5 +1,8 @@
 from typing import Any, Literal, NamedTuple, NewType, TypedDict, Union, Optional, Dict
 
+'''
+Base classes
+'''
 class Error(NamedTuple):
     code: int
     message: str
