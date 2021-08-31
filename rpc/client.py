@@ -108,56 +108,7 @@ class SolClient(object):
                 pass
             r.raise_for_status()
 
-    def _pprint_request(self, prepped):
-        method = prepped.method
-        url = prepped.path_url
-        # TODO retrieve HTTP version
-        headers = '\n'.join('{}: {}'.format(k, v) for k, v in
-                            prepped.headers.items())
-        # Print body if present or empty string if not
-        body = prepped.body or ""
-
-        logger.info("Requesting {} to {}".format(method, url))
-
-        logger.debug(
-            '{}\n{} {} HTTP/1.1\n{}\n\n{}'.format(
-                '-----------REQUEST-----------',
-                method,
-                url,
-                headers,
-                body
-            )
-        )
-
-    def _pprint_response(self, r):
-        httpv = 'HTTP/{}.{}'.format(httpv0, httpv1)
-        status_code = r.status_code
-        status_text = r.reason
-        headers = '\n'.join('{}: {}'.format(k, v) for k, v in
-                            r.headers.items())
-        body = r.text or ""
-        # Convert timedelta to milliseconds
-        elapsed = floor(r.elapsed.total_seconds() * 1000)
-
-        logger.info(
-            "Response {} {} received in {}ms".format(
-                status_code,
-                status_text,
-                elapsed
-            )
-        )
-
-        logger.debug(
-            '{}\n{} {} {}\n{}\n\n{}'.format(
-                '-----------RESPONSE-----------',
-                httpv,
-                status_code,
-                status_text,
-                headers,
-                body
-            )
-        )
-
+ 
     def make_request(
         self,
         endpoint,
