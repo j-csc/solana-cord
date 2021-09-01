@@ -139,7 +139,7 @@ class EpochBot(commands.Bot):
     On Ready
     '''
     async def on_ready(self):
-        activity = discord.Activity(name='Solana Epoch Tracker', type=discord.ActivityType.watching)
+        activity = discord.Activity(name='Loading...', type=discord.ActivityType.watching)
         await self.change_presence(activity=activity)
         logger.info(f'{self.user} has connected to Discord!')
         

@@ -2,6 +2,8 @@
 
 Implementation of Solana's JSON RPC API, wrapped for discord bots.
 
+94421759 245759 1630521412 1630390553 0.5688865740740741
+
 ### Endpoints
 - https://api.mainnet-beta.solana.com - Solana-hosted api node cluster, backed by a load balancer; rate-limited
 - https://solana-api.projectserum.com - Project Serum-hosted api node
