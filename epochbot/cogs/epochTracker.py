@@ -26,7 +26,7 @@ class EpochTrackerCog(commands.Cog):
     '''
     TASKS
     '''
-    @tasks.loop(minutes=10)
+    @tasks.loop(minutes=15)
     async def broadcastTimeRemaining(self):
         # send message in channel
         time_disect = self.est_remaining.split(" ")
@@ -43,7 +43,7 @@ class EpochTrackerCog(commands.Cog):
         # logger.info("Waiting for bot to initialize before loop...")
         await self.bot.wait_until_ready()
     
-    @tasks.loop(seconds=60)
+    @tasks.loop(minutes=15)
     async def update_stake_status_presence(self):
         epr = await self.bot.rpcClient.getEpochProgress()
         curr_progress = epr[0]
