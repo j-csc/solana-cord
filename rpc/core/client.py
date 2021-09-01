@@ -24,7 +24,7 @@ class Client(object):
             logger.info('Health check failed!')
             raise ConnectionError('Health check failed!')
     
-    def _healthCheck(self) -> None:
+    def _healthCheck(self) -> bool:
         '''
         Health check
         '''

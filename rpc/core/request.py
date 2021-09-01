@@ -53,20 +53,17 @@ class RPCRequest:
     def _pprint_response(self, r:requests.Response) -> None:
         if logger:
             status_code = r.status_code
-            status_text = r.reason
             body = r.text
             elapsed = floor(r.elapsed.total_seconds() * 1000)
             
-            logger.info("Response {} {} received in {}ms".format(
+            logger.info("Response {} received in {}ms".format(
                 status_code,
-                status_text,
                 elapsed))
             
             logger.debug(
-                '{}\ncode: {} text: {}\ntype: application/json\nbody: {}\n'.format(
+                '\n{}\ncode: {} \ntype: application/json\nbody: {}\n'.format(
                     '-----------RPC RESPONSE-----------',
                     status_code,
-                    status_text,
                     body
                 )
             )
@@ -75,7 +72,7 @@ class RPCRequest:
         if logger:
             logger.info("Requesting {} to {}".format(self.method, self.url))
             logger.debug(
-                '{}\nmethod: {}\nurl: {}\ntype: application/json\nparams: {}\n'.format(
+                '\n{}\nmethod: {}\nurl: {}\ntype: application/json\nparams: {}\n'.format(
                     '-----------RPC REQUEST-----------',
                     self.method,
                     self.url,
