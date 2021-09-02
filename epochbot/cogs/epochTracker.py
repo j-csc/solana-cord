@@ -30,7 +30,7 @@ class EpochTrackerCog(commands.Cog):
     async def broadcastTimeRemaining(self):
         # send message in channel
         time_disect = self.est_remaining.split(" ")
-        if int(time_disect[0][:-1]) == 0 and int(time_disect[1][:-1]) == 1 and (int(time_disect[2][:-1]) < 5 or int(time_disect[2][:-1]) > 1):
+        if int(time_disect[0][:-1]) == 0 and (int(time_disect[1][:-1]) == 1 and (int(time_disect[2][:-1]) < 5 or int(time_disect[2][:-1]) > 1)) or (int(time_disect[1][:-1] == 0) and int(time_disect[2][-1] == 59)):
             embed = discord.Embed(title=f'1 hour remaining!', 
             description=self.name_str, colour=discord.Colour.gold())
         
