@@ -5,6 +5,7 @@ import configparser
 import shutil
 from .utils import ENDPOINT_URLS
 from .logger import logger
+import os
 
 class Config:
     def __init__(self, fn) -> None:
@@ -18,7 +19,8 @@ class Config:
         if confsections:
             logger.warn("Please ensure all required config sections are in {}".format(fn))
         
-        self.token = config.get("Credentials", "Token", fallback=ConfigDefaults.token)
+        self.token = os.environ.get("token")
+        # self.token = config.get("Credentials", "Token", fallback=ConfigDefaults.token)
         self.endpoint = config.get("Sol", "Endpoint", fallback=ConfigDefaults.endpoint)
         self.command_prefix = config.get("Chat", "CommandPrefix", fallback=ConfigDefaults.command_prefix)
         self.bound_channels = config.get("Chat", "BindToChannels", fallback=ConfigDefaults.bound_channels)
