@@ -15,7 +15,6 @@ pywatchman==1.4.1
 requests==2.26.0
 rfc3986==1.5.0
 sniffio==1.2.0
-TBB==0.2
 typing-extensions==3.10.0.2
 urllib3==1.26.6
 yarl==1.6.3
