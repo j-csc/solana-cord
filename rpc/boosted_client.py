@@ -23,10 +23,9 @@ class BoostedClient(AsyncClient):
         startSlotTime = (await self.getBlockTime(ei.absoluteSlot - ei.slotIndex))["result"]
         currSlotTime = (await self.getBlockTime(ei.absoluteSlot))["result"]
         totalTimeNeeded = (currSlotTime - startSlotTime) / percentCompleted
-        estimatedTimeRemaining = totalTimeNeeded * percentCompleted
+        estimatedTimeRemaining = totalTimeNeeded * (1-percentCompleted)
         
         # Pretty print
-        
         seconds_in_day = 60 * 60 * 24
         seconds_in_hour = 60 * 60
         seconds_in_minute = 60

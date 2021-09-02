@@ -36,7 +36,7 @@ class EpochTrackerCog(commands.Cog):
         
             for channel in self.bot.config.bound_channels:
                 chn = self.bot.get_channel(int(channel))
-                await chn.send("@everyone", embed=embed)
+                await chn.send("@community The epoch is estimated to end in about an hour. Please complete any staking actions before the start of the next epoch.")
             
     @broadcastTimeRemaining.before_loop
     async def before_broadcast_update(self):
