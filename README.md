@@ -25,3 +25,19 @@ Currently, the RPC wrapper supports multiple API methods that are useful for dis
 - Epoch Tracking Information
 - Notification when an epoch is about to end (1 hour)
 
+## Installation
+
+Installation is **very easy**. Simply follow the procedures listed below:
+
+```bash
+git clone https://github.com/jaloo555/solana-cord.git
+pip install -r requirements.txt
+```
+Configuration:
+> The bot extracts configuration information from /config/options.ini, add a discord bot account token under credentials to get started.
+
+To run:
+```bash
+python3 run.py
+```
+
