@@ -49,5 +49,5 @@ python3 run.py
 
 Released under [MIT License](https://opensource.org/licenses/MIT).
 
-Work is done by a [solana](https://solana.com) newb kekw.
+Work is done by a [Solana](https://solana.com) newb kekw.
 
