@@ -25,6 +25,10 @@ Currently, the RPC wrapper supports multiple API methods that are useful for dis
 - Epoch Tracking Information
 - Notification when an epoch is about to end (1 hour)
 
+## Demo
+
+![epoch_demo](https://imgur.com/a/Itcj89B)
+
 ## Installation
 
 Installation is **very easy**. Simply follow the procedures listed below:
