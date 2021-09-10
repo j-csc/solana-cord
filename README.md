@@ -27,7 +27,7 @@ Currently, the RPC wrapper supports multiple API methods that are useful for dis
 
 ## Demo
 
-![epoch_demo](https://imgur.com/a/Itcj89B)
+![epoch_demo](./epoch_bot_sample.png)
 
 ## Installation
 
