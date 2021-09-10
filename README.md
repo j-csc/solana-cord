@@ -45,3 +45,9 @@ To run:
 python3 run.py
 ```
 
+## License
+
+Released under [MIT License](https://opensource.org/licenses/MIT).
+
+Work is done by a [solana](https://solana.com) newb kekw.
+
