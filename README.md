@@ -10,6 +10,10 @@ Solana Cord is an implementation of Solana's JSON RPC API, wrapped for discord b
 
 Currently, the RPC wrapper supports multiple API methods that are useful for discord bots/members. However, the wrapper is _modular_ by nature and easily expandable. Feel free to build on top of it. There's also an additional sample discord bot code that allow you to customize for your own server. The bot currently supports epoch tracking and notification updates when a staking cycle is about to end.
 
+#### Demo
+
+![epoch_demo](./epoch_bot_sample.png)
+
 #### Features - JSON RPC API Wrapper
 
 - getBlock
@@ -24,10 +28,6 @@ Currently, the RPC wrapper supports multiple API methods that are useful for dis
 
 - Epoch Tracking Information
 - Notification when an epoch is about to end (1 hour)
-
-## Demo
-
-![epoch_demo](./epoch_bot_sample.png)
 
 ## Installation
 
